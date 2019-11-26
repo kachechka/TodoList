@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewData["Title"] = "TODO";
+}
+
+    <div v-cloak>
+        <template v-if="dataLoaded">
+            <div>
+                <form id="add-todo-task" class="form-inline row" method="post" v-on:submit.prevent="onAdd">
+                    <div class="form-group col-9">
+                        <input type="text" class="form-control" v-model="newTaskText"
+                               placeholder="Enter task..." required>
+                    </div>
+                    <button type="submit" class="btn btn-primary col-3" v-bind:disabled="taskIsEmptyOrSpaces()">Add</button>
+                </form>
+            </div>
+            <section>
+                <todo-task v-for="(task, idx) in tasks" :key="idx"
+                           :idx="idx" :task="task"
+                           v-on:oncheckchange="onCheckChange" v-on:ondelete="onDelete"></todo-task>
+            </section>
+        </template>
+
+        <div id="error" class="alert alert-danger text-center"></div>
+
+        <wait-modal></wait-modal>
+
+    </div>
+
+@section Scripts {
+    <environment include="Development">
+        <script src="~/js/todo-task-list.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/todo-task-list.js" asp-append-version="true"></script>
+    </environment>
+}
